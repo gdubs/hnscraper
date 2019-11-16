@@ -15,21 +15,7 @@ namespace HNScraper
 		static void Main(string[] args)
 		{
 			// input top n posts.. from 1 and 100
-			GetNPostsFromHackerNews(12);
-		}
-
-
-		static void Log(string message)
-		{
-			long timeStamp = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss"));
-			string path = $"log_{timeStamp}.txt";
-
-			if (!File.Exists(path))
-			{
-				File.Create(path).Dispose();
-			}
-
-			File.WriteAllText(path, message);
+			GetNPostsFromHackerNews(100);
 		}
 
 
@@ -41,8 +27,10 @@ namespace HNScraper
 		 *    - logs are created for any exceptions
 		 *    - urls are being validated
 		 *    - validation fails will also thow an exception and will be logged
+		 *    - results can be found in the bin folder with a timestamp
 		 * 
 		 * ***/
+
 		static void GetNPostsFromHackerNews(int topNPosts)
 		{
 			if(topNPosts < 0 || topNPosts > 100)
@@ -59,7 +47,8 @@ namespace HNScraper
 
 				var topPostUrl = "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty";
 
-				//var topPostUrl = "invalid url";
+				// uncomment to test error
+				// topPostUrl = "invalid url";
 
 				if (!ValidUrl(topPostUrl))
 					throw new Exception($"{topPostUrl} is an invalid URL");
@@ -80,7 +69,8 @@ namespace HNScraper
 					getPostUri = $"https://hacker-news.firebaseio.com/v0/item/{id}.json?print=pretty";
 
 
-					//var getPostUri = "another invalid url";
+					// uncomment to test error
+					// getPostUri = "another invalid url";
 
 					if (!ValidUrl(getPostUri))
 						throw new Exception($"{getPostUri} is an invalid URL");
@@ -91,7 +81,8 @@ namespace HNScraper
 
 					var post = JsonConvert.DeserializeObject<Post>(getPost.Result);
 
-					// test post.Title = "";
+					// uncomment to test error
+					//post.Title = "";
 
 					ValidatePost(post);
 						
@@ -103,15 +94,15 @@ namespace HNScraper
 						topPostJsonObjects.Append(",");
 				}
 
-				//throw new Exception("error test");
+				// uncomment to test error
+				// throw new Exception("error test");
 
 				var topPosts = $"[{topPostJsonObjects.ToString()}]";
 				WriteJsonFile(topPosts);
+
 			}catch(Exception ex)
 			{
-				Console.WriteLine("Something went wrong, please check logs");
-				Log(ex.Message);
-				throw ex;
+				HandleExceptions(ex);
 			}
 			
 		}
@@ -135,10 +126,10 @@ namespace HNScraper
 			}
 			catch(Exception ex)
 			{
-				Console.WriteLine("Something went wrong, please check logs");
-				Log(ex.Message);
-				throw ex;
+				HandleExceptions(ex);
 			}
+
+			return "";
 		}
 
 		static bool ValidUrl(string url)
@@ -153,7 +144,7 @@ namespace HNScraper
 
 				return true;
 			}
-			catch(Exception ex)
+			catch
 			{
 				return false;
 			}
@@ -219,6 +210,29 @@ namespace HNScraper
 			File.WriteAllText(path, parsedJson);
 		}
 
+		static void Log(string message)
+		{
+			long timeStamp = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss"));
+			string path = $"log_{timeStamp}.txt";
+
+			if (!File.Exists(path))
+			{
+				File.Create(path).Dispose();
+			}
+
+			File.WriteAllText(path, message);
+		}
+
+		static void HandleExceptions(Exception ex)
+		{
+			// this might not be the most ideal since it's a little confusing as to which catch it got triggered..
+			// needs improvement. was just trying to avoid code repeat.
+
+			Console.WriteLine("Something went wrong, please check logs");
+			Log(ex.Message);
+			throw ex;
+		}
+
 		public class Post
 		{
 			public int Id { get; set; }
@@ -231,6 +245,8 @@ namespace HNScraper
 			public string Type { get; set; }
 			public string Url { get; set; }
 		}
+
+
 	}
 }
 
