@@ -15,7 +15,7 @@ namespace HNScraper
 		static void Main(string[] args)
 		{
 			// input top n posts.. from 1 and 100
-			GetNPostsFromHackerNews(100);
+			GetNPostsFromHackerNews(3);
 		}
 
 
@@ -79,16 +79,25 @@ namespace HNScraper
 					var getPost = Task.Run(() => SendRequest(getPostUri));
 					getPost.Wait();
 
+
+					// most straight forward way to conver to object and process any validations is to deserialize
+					// since the json does not have properties that was needed, the easiest way was to
+					// assign them to their appropriate counter parts eg. Comments = Descendants, etc
+
 					var post = JsonConvert.DeserializeObject<Post>(getPost.Result);
+					post.Rank = r + 1;
+					post.Comments = post.Descendants;
+					post.Author = post.By;
+					post.Points = post.Score;
 
 					// uncomment to test error
 					//post.Title = "";
 
 					ValidatePost(post);
-						
+					
 
 
-					topPostJsonObjects.Append(getPost.Result);
+					topPostJsonObjects.Append(JsonConvert.SerializeObject(post));
 
 					if (r + 1 != topNPosts)
 						topPostJsonObjects.Append(",");
@@ -107,13 +116,14 @@ namespace HNScraper
 			
 		}
 
+
 		static async Task<string> SendRequest(string url)
 		{
 			try
 			{
 				var response = string.Empty;
 				var client = CreateHttpClient();
-				var responseMessage = await client.GetAsync(url); //.ConfigureAwait(false);
+				var responseMessage = await client.GetAsync(url); 
 
 				if (responseMessage.IsSuccessStatusCode)
 				{
@@ -157,13 +167,13 @@ namespace HNScraper
 			if (string.IsNullOrEmpty(post.Title))
 				validationErrors.Add("\r\n Title is an empty string");
 
-			if (string.IsNullOrEmpty(post.By))
+			if (string.IsNullOrEmpty(post.Author))
 				validationErrors.Add("\r\n Author is an empty string");
 
 			if(post.Title?.Length >= 256)
 				validationErrors.Add("\r\n Title is greater than 256 characters");
 
-			if (post.By?.Length >= 256)
+			if (post.Author?.Length >= 256)
 				validationErrors.Add("\r\n Author is greater than 256 characters");
 
 			if (validationErrors.Count > 0)
@@ -244,6 +254,10 @@ namespace HNScraper
 			public string Title { get; set; }
 			public string Type { get; set; }
 			public string Url { get; set; }
+			public int Comments { get; set; }
+			public int Rank { get; set; }
+			public int Points { get; set; }
+			public string Author { get; set; }
 		}
 
 
