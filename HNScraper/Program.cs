@@ -63,7 +63,7 @@ namespace HNScraper
 				var topPostJsonObjects = new StringBuilder();
 				var getPostUri = string.Empty;
 
-
+				// setup settings for converting the right properties when serializing
 				var jsonSerializerResolver = new JsonSerializeResolver();
 				jsonSerializerResolver.RenameProperty(typeof(Post), "By", "Author");
 				jsonSerializerResolver.RenameProperty(typeof(Post), "Score", "Points");
@@ -72,6 +72,8 @@ namespace HNScraper
 				var serializeSettings = new JsonSerializerSettings();
 				serializeSettings.ContractResolver = jsonSerializerResolver;
 
+
+				// start retrieving N  and serializing objects to json
 				for (var r = 0; r < topNPosts; r++)
 				{
 					var id = topPostIds[r];
@@ -110,6 +112,9 @@ namespace HNScraper
 				// uncomment to test error
 				// throw new Exception("error test");
 
+
+				// write to file
+
 				var topPosts = $"[{topPostJsonObjects.ToString()}]";
 				WriteJsonFile(topPosts);
 
@@ -121,6 +126,13 @@ namespace HNScraper
 		}
 
 
+		//start http client for http request
+		static HttpClient CreateHttpClient()
+		{
+			return new HttpClient();
+		}
+
+		// http request
 		static async Task<string> SendRequest(string url)
 		{
 			try
@@ -146,6 +158,7 @@ namespace HNScraper
 			return "";
 		}
 
+		// validate url exists
 		static bool ValidUrl(string url)
 		{
 			try
@@ -164,6 +177,7 @@ namespace HNScraper
 			}
 		}
 
+		// validate property values
 		static bool ValidPostObject(Post post,out List<string> validationErrors)
 		{
 			validationErrors = new List<string>();
@@ -186,6 +200,7 @@ namespace HNScraper
 			return validationErrors.Count == 0;
 		}
 
+		// validate instance of object
 		static void ValidatePost(Post post)
 		{
 			var validationErrors = new List<string>();
@@ -197,11 +212,7 @@ namespace HNScraper
 			}
 		}
 
-		static HttpClient CreateHttpClient()
-		{
-			return new HttpClient();
-		}
-
+		// write file
 		static void WriteJsonFile(string json)
 		{
 
@@ -224,6 +235,7 @@ namespace HNScraper
 			File.WriteAllText(path, parsedJson);
 		}
 
+		// write log for exceptions
 		static void Log(string message)
 		{
 			long timeStamp = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss"));
@@ -237,6 +249,7 @@ namespace HNScraper
 			File.WriteAllText(path, message);
 		}
 
+		// catch exception handler
 		static void HandleExceptions(Exception ex)
 		{
 			// this might not be the most ideal since it's a little confusing as to which catch it got triggered..
@@ -262,6 +275,8 @@ namespace HNScraper
 		}
 	}
 
+
+	// renames specific properties to another name
 	public class JsonSerializeResolver : DefaultContractResolver
 	{
 		readonly Dictionary<Type, Dictionary<string, string>> _renameMappings;
