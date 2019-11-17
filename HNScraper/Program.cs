@@ -1,10 +1,13 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -60,6 +63,15 @@ namespace HNScraper
 				var topPostJsonObjects = new StringBuilder();
 				var getPostUri = string.Empty;
 
+
+				var jsonSerializerResolver = new JsonSerializeResolver();
+				jsonSerializerResolver.RenameProperty(typeof(Post), "By", "Author");
+				jsonSerializerResolver.RenameProperty(typeof(Post), "Score", "Points");
+				jsonSerializerResolver.RenameProperty(typeof(Post), "Descendants", "Comments");
+
+				var serializeSettings = new JsonSerializerSettings();
+				serializeSettings.ContractResolver = jsonSerializerResolver;
+
 				for (var r = 0; r < topNPosts; r++)
 				{
 					var id = topPostIds[r];
@@ -80,24 +92,16 @@ namespace HNScraper
 					getPost.Wait();
 
 
-					// most straight forward way to conver to object and process any validations is to deserialize
-					// since the json does not have properties that was needed, the easiest way was to
-					// assign them to their appropriate counter parts eg. Comments = Descendants, etc
-
 					var post = JsonConvert.DeserializeObject<Post>(getPost.Result);
 					post.Rank = r + 1;
-					post.Comments = post.Descendants;
-					post.Author = post.By;
-					post.Points = post.Score;
 
 					// uncomment to test error
 					//post.Title = "";
 
 					ValidatePost(post);
-					
 
 
-					topPostJsonObjects.Append(JsonConvert.SerializeObject(post));
+					topPostJsonObjects.Append(JsonConvert.SerializeObject(post, serializeSettings));
 
 					if (r + 1 != topNPosts)
 						topPostJsonObjects.Append(",");
@@ -167,13 +171,13 @@ namespace HNScraper
 			if (string.IsNullOrEmpty(post.Title))
 				validationErrors.Add("\r\n Title is an empty string");
 
-			if (string.IsNullOrEmpty(post.Author))
+			if (string.IsNullOrEmpty(post.By))
 				validationErrors.Add("\r\n Author is an empty string");
 
 			if(post.Title?.Length >= 256)
 				validationErrors.Add("\r\n Title is greater than 256 characters");
 
-			if (post.Author?.Length >= 256)
+			if (post.By?.Length >= 256)
 				validationErrors.Add("\r\n Author is greater than 256 characters");
 
 			if (validationErrors.Count > 0)
@@ -254,13 +258,50 @@ namespace HNScraper
 			public string Title { get; set; }
 			public string Type { get; set; }
 			public string Url { get; set; }
-			public int Comments { get; set; }
 			public int Rank { get; set; }
-			public int Points { get; set; }
-			public string Author { get; set; }
+		}
+	}
+
+	public class JsonSerializeResolver : DefaultContractResolver
+	{
+		readonly Dictionary<Type, Dictionary<string, string>> _renameMappings;
+
+		public JsonSerializeResolver()
+		{
+			_renameMappings = new Dictionary<Type, Dictionary<string, string>>();
 		}
 
+		public void RenameProperty(Type type, string prop, string newProp)
+		{
+			if (!_renameMappings.ContainsKey(type))
+				_renameMappings[type] = new Dictionary<string, string>();
 
+			_renameMappings[type][prop] = newProp;
+		}
+
+		protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+		{
+			var prop = base.CreateProperty(member, memberSerialization);
+
+
+			if (IsRenamed(prop.DeclaringType, prop.PropertyName, out var newProp))
+				prop.PropertyName = newProp;
+
+			return prop;
+		}
+
+		bool IsRenamed(Type type, string prop, out string newProp)
+		{
+			Dictionary<string, string> renamedProperties;
+
+			if(!_renameMappings.TryGetValue(type, out renamedProperties) || !renamedProperties.TryGetValue(prop, out newProp))
+			{
+				newProp = null;
+				return false;
+			}
+
+			return true;
+		}
 	}
 }
 
