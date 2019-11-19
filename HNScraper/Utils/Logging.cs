@@ -22,6 +22,7 @@ namespace HNScraper.Utils
 			File.WriteAllText(path, message);
 
 			// wait for user to keypress before closing to make sure user reads the instruction
+			Console.WriteLine("Press any key to exit");
 			Console.ReadKey();
 		}
 

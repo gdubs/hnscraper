@@ -12,6 +12,8 @@ namespace HNScraper
 		static void Main(string[] args)
 		{
 
+			Console.WriteLine("This app gets the top posts from Hacker News. Please enter a number from 0 to 100");
+
 			int n;
 			if (int.TryParse(Console.ReadLine(), out n))
 			{
