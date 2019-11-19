@@ -34,7 +34,7 @@ namespace HNScraper.Utils
 
 			Console.WriteLine("Something went wrong, please check logs");
 			Log(ex.Message);
-			throw ex;
+			//throw ex;
 		}
 	}
 }

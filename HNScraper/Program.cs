@@ -104,8 +104,13 @@ namespace HNScraper
 					var post = JsonConvert.DeserializeObject<Post>(getPost.Result);
 					post.Rank = r + 1;
 
-					// uncomment to test error
+					// uncomment to test validation error
 					//post.Title = "";
+					//post.By = "";
+
+					// uncomment to test 256 validation error
+					//post.By = "knGvbM6sS5PKTTMJ7ENGjwnk3bPnIaHFjkAEsMJCFHLRT5UfT4Hyzbxuh3HJ7nfEgWjzWBaSYXXAWaBCSOouiL08ILqJ1qiWKFhOylv2GvbyqW2hM9UAWqcvnbQ5dLG7N4jzVH4MipjsHlNZ8MaPkntEwPInLMIjSlxth8cnqr5ydaopVAk6azahopJIl3GmfOFEdRN6Oxiv4QJQNvHfPficrdjh3SORCrEHzt5Ekd8x5XIEcyhrOsbOSwTG2f2t5";
+					//post.Title = "knGvbM6sS5PKTTMJ7ENGjwnk3bPnIaHFjkAEsMJCFHLRT5UfT4Hyzbxuh3HJ7nfEgWjzWBaSYXXAWaBCSOouiL08ILqJ1qiWKFhOylv2GvbyqW2hM9UAWqcvnbQ5dLG7N4jzVH4MipjsHlNZ8MaPkntEwPInLMIjSlxth8cnqr5ydaopVAk6azahopJIl3GmfOFEdRN6Oxiv4QJQNvHfPficrdjh3SORCrEHzt5Ekd8x5XIEcyhrOsbOSwTG2f2t5";
 
 					Validation.ValidatePost(post);
 
