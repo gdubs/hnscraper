@@ -1,13 +1,21 @@
 # hnscraper
-Right click on solution and restore nuget package
 
-Solution is using .Net Core 4.6.1 
 
-Press F5 to run the console app. 
-  1. User will need to enter a number from 0 - 100.
-  2. Anything outside of that scope will return an error and will be logged. 
+NOTES:
+  1. App was built using Visual Studio 2017 (Should be able to run with 2019 as well -- Community, Professional and Enterprise)
+  2. Solution uses .Net Core 4.6.1
+  3. Output can be found on the bin folder of the project
+  4. Anything outside of that scope will return an error and will be logged. 
       a. Logs can be found in the bin folder
-  3. After processing json results should be in the bin folder
+  
+
+How to run the applicatin:
+
+  1. Use Visual Studio to open the project.
+  2. Once project is open, right click on solution and restore nuget package
+  3. User will need to enter a number from 0 - 100.
+  4. Press any key to close the app.
+  5. Json results and log files will be in the bin folder
 
 
 Error testing:
