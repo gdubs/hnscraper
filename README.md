@@ -1,7 +1,7 @@
 # hnscraper
 
 
-#NOTES:
+## NOTES:
 
 
 ```
@@ -12,7 +12,7 @@
       a. Logs can be found in the bin folder
  ```
 
-#How to run the application:
+## How to run the application:
 
 ```
   1. Use Visual Studio to open the project.
@@ -24,7 +24,7 @@
 ```
 
 
-#Unit testing:
+## Unit testing:
 
 ```
   1. Unit testing is now available to test validation and error handling. 
