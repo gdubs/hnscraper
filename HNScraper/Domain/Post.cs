@@ -1,4 +1,6 @@
-﻿namespace HNScraper.Core
+﻿using System.Collections.Generic;
+
+namespace HNScraper.Domain
 {
 	public class Post
 	{

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace HNScraper.Core
+namespace HNScraper.Common
 {
 	// renames specific properties to another name
 	public class JsonSerializeResolver : DefaultContractResolver

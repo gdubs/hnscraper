@@ -1,9 +1,9 @@
-﻿using HNScraper.Core;
+﻿using HNScraper.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HNScraper.Core
+namespace HNScraper.Common
 {
 	static public class Validation
 	{

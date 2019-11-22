@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace HNScraper.Core
+namespace HNScraper.Common
 {
 	static public class JsonUtil
 	{
@@ -29,5 +30,6 @@ namespace HNScraper.Core
 
 			File.WriteAllText(path, parsedJson);
 		}
+
 	}
 }
