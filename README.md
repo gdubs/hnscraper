@@ -9,22 +9,21 @@ NOTES:
       a. Logs can be found in the bin folder
   
 
-How to run the applicatin:
+How to run the application:
 
   1. Use Visual Studio to open the project.
   2. Once project is open, right click on solution and restore nuget package
-  3. User will need to enter a number from 0 - 100.
-  4. Press any key to close the app.
-  5. Json results and log files will be in the bin folder
+  3. Right click on HNScraper project and select run as startup project. Start Debug.
+  4. User will need to enter a number from 0 - 100.
+  5. Press any key to close the app.
+  6. Json results and log files will be in the bin folder
 
 
-Error testing:
-  1. I've placed a comment to force an error on invalid URLs. 
-      a. Will try to refactor code to add unit tests if I have time. But in the meantime, uncommenting specific comments will be the quickest way to test loggin of invalid urls
-  2. Validation was also added for some properties. Same as above, I've left comments for testing
+Unit testing:
+
+  1. Unit testing is now available to test validation and error handling. 
+  2. Please open your test explorer which should show up on the left side of Visual Studio
+  3. Click run all to test the validations and error handling. 
   
  
  
-Docker:
-  1. No experience with docker, but will try to see how I can get it to work with the app.
-
