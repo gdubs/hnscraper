@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HNScraper", "HNScraper\HNScraper.csproj", "{A263A6E1-9C2D-464A-A5FC-463ACC39CB17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HNScraper.Test", "HNScraper.Test\HNScraper.Test.csproj", "{747765D9-C1AD-406D-9510-A8C48169824B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A263A6E1-9C2D-464A-A5FC-463ACC39CB17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A263A6E1-9C2D-464A-A5FC-463ACC39CB17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A263A6E1-9C2D-464A-A5FC-463ACC39CB17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{747765D9-C1AD-406D-9510-A8C48169824B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{747765D9-C1AD-406D-9510-A8C48169824B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{747765D9-C1AD-406D-9510-A8C48169824B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{747765D9-C1AD-406D-9510-A8C48169824B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

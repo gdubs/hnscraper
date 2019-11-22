@@ -28,8 +28,7 @@ namespace HNScraper.Api
 		{
 			if (topNPosts < 0 || topNPosts > 100)
 			{
-				Logging.Log("Invalid total number of posts");
-				return;
+				throw new Exception("Invalid total number of posts");
 			}
 
 
@@ -98,7 +97,7 @@ namespace HNScraper.Api
 		// TODO: removed this from Post, looks ugly when converting to json
 		//       maybe make sense to add somewhere else. Maybe another service inside domain??
 		List<string> ValidationErrors;
-		bool IsValid(Post post)
+		public bool IsValid(Post post)
 		{
 			ValidationErrors = new List<string>();
 
@@ -114,6 +113,15 @@ namespace HNScraper.Api
 			if (post.By?.Length >= 256)
 				ValidationErrors.Add("\r\n Author is greater than 256 characters");
 
+			if(post.Rank < 0)
+				ValidationErrors.Add("\r\n Invalid rank");
+
+			if (post.Descendants < 0)
+				ValidationErrors.Add("\r\n Invalid comments");
+
+			if (post.Score < 0)
+				ValidationErrors.Add("\r\n Invalid points");
+
 			if (ValidationErrors.Count > 0)
 				ValidationErrors.Insert(0, "Validation errors for id " + post.Id);
 
@@ -122,14 +130,3 @@ namespace HNScraper.Api
 	}
 }
 
-
-
-// uncomment to test validation error
-//post.Title = "";
-//post.By = "";
-
-// uncomment to test 256 validation error
-//post.By = "knGvbM6sS5PKTTMJ7ENGjwnk3bPnIaHFjkAEsMJCFHLRT5UfT4Hyzbxuh3HJ7nfEgWjzWBaSYXXAWaBCSOouiL08ILqJ1qiWKFhOylv2GvbyqW2hM9UAWqcvnbQ5dLG7N4jzVH4MipjsHlNZ8MaPkntEwPInLMIjSlxth8cnqr5ydaopVAk6azahopJIl3GmfOFEdRN6Oxiv4QJQNvHfPficrdjh3SORCrEHzt5Ekd8x5XIEcyhrOsbOSwTG2f2t5";
-//post.Title = "knGvbM6sS5PKTTMJ7ENGjwnk3bPnIaHFjkAEsMJCFHLRT5UfT4Hyzbxuh3HJ7nfEgWjzWBaSYXXAWaBCSOouiL08ILqJ1qiWKFhOylv2GvbyqW2hM9UAWqcvnbQ5dLG7N4jzVH4MipjsHlNZ8MaPkntEwPInLMIjSlxth8cnqr5ydaopVAk6azahopJIl3GmfOFEdRN6Oxiv4QJQNvHfPficrdjh3SORCrEHzt5Ekd8x5XIEcyhrOsbOSwTG2f2t5";
-
-//Validation.ValidatePost(post);
