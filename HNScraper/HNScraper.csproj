@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="Api\HackerNewsAppService.cs" />
     <Compile Include="Api\TopPostAppService.cs" />
-    <Compile Include="Common\ValidationError.cs" />
     <Compile Include="Domain\Post.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,13 +55,13 @@
     <Compile Include="Common\JsonSerializeResolver.cs" />
     <Compile Include="Common\JsonUtil.cs" />
     <Compile Include="Common\Logging.cs" />
-    <Compile Include="Common\Validation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core\" />
     <Folder Include="Infrastructure\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
