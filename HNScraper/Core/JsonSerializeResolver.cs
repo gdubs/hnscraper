@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace HNScraper.Utils
+namespace HNScraper.Core
 {
 	// renames specific properties to another name
 	public class JsonSerializeResolver : DefaultContractResolver
@@ -50,20 +50,3 @@ namespace HNScraper.Utils
 	}
 }
 
-
-
-/*
- 
-	 {
-  "by" : "Cthulhu_",
-  "descendants" : 46,
-  "id" : 21545425,
-  "kids" : [ 21552962, 21552846, 21552959, 21552742, 21552764, 21552633, 21552811, 21552886, 21552815, 21552840, 21552921, 21552887, 21552730, 21552878 ],
-  "score" : 80,
-  "time" : 1573830832,
-  "title" : "The Value in Go’s Simplicity",
-  "type" : "story",
-  "url" : "https://benjamincongdon.me/blog/2019/11/11/The-Value-in-Gos-Simplicity/"
-}
-	 
-	 */

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HNScraper.Utils
+namespace HNScraper.Core
 {
 	static public class JsonUtil
 	{

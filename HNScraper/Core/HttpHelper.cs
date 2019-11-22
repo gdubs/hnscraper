@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace HNScraper.Utils
+namespace HNScraper.Core
 {
 	static public class HttpHelper
 	{

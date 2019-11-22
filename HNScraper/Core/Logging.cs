@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace HNScraper.Utils
+namespace HNScraper.Core
 {
 	static public class Logging
 	{
