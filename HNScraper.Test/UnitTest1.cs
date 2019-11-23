@@ -33,7 +33,7 @@ namespace HNScraper.Test
 				Rank = 1
 			};
 
-			Assert.IsFalse(toppostService.IsValid(post));
+			Assert.IsFalse(post.IsValid());
 		}
 
 		[TestMethod]
@@ -48,7 +48,7 @@ namespace HNScraper.Test
 				Rank = 1
 			};
 
-			Assert.IsFalse(toppostService.IsValid(post));
+			Assert.IsFalse(post.IsValid());
 		}
 
 		[TestMethod]
@@ -63,7 +63,7 @@ namespace HNScraper.Test
 				Rank = 1
 			};
 
-			Assert.IsFalse(toppostService.IsValid(post));
+			Assert.IsFalse(post.IsValid());
 		}
 
 		[TestMethod]
@@ -78,7 +78,7 @@ namespace HNScraper.Test
 				Rank = 1
 			};
 
-			Assert.IsFalse(toppostService.IsValid(post));
+			Assert.IsFalse(post.IsValid());
 		}
 
 		[TestMethod]
@@ -93,7 +93,7 @@ namespace HNScraper.Test
 				Rank = 1
 			};
 
-			Assert.IsFalse(toppostService.IsValid(post));
+			Assert.IsFalse(post.IsValid());
 		}
 
 		[TestMethod]
@@ -108,7 +108,7 @@ namespace HNScraper.Test
 				Rank = 1
 			};
 
-			Assert.IsFalse(toppostService.IsValid(post));
+			Assert.IsFalse(post.IsValid());
 		}
 
 		[TestMethod]
@@ -123,7 +123,7 @@ namespace HNScraper.Test
 				Rank = -1
 			};
 
-			Assert.IsFalse(toppostService.IsValid(post));
+			Assert.IsFalse(post.IsValid());
 		}
 
 		[TestMethod]

@@ -81,8 +81,8 @@ namespace HNScraper.Api
 				var post = JsonConvert.DeserializeObject<Post>(postStringObject);
 				post.Rank = r + 1;
 
-				if (!IsValid(post))
-					throw new Exception(String.Join(" ", ValidationErrors));
+				if (!post.IsValid())
+					throw new Exception(String.Join(" ", post.GetValidationErrors()));
 
 				topPostJsonObjects.Append(JsonConvert.SerializeObject(post, serializeSettings));
 
@@ -92,41 +92,7 @@ namespace HNScraper.Api
 
 			return topPostJsonObjects.ToString();
 		}
-
-
-		// TODO: removed this from Post, looks ugly when converting to json
-		//       maybe make sense to add somewhere else. Maybe another service inside domain??
-		List<string> ValidationErrors;
-		public bool IsValid(Post post)
-		{
-			ValidationErrors = new List<string>();
-
-			if (string.IsNullOrEmpty(post.Title))
-				ValidationErrors.Add("\r\n Title is an empty string");
-
-			if (string.IsNullOrEmpty(post.By))
-				ValidationErrors.Add("\r\n Author is an empty string");
-
-			if (post.Title?.Length >= 256)
-				ValidationErrors.Add("\r\n Title is greater than 256 characters");
-
-			if (post.By?.Length >= 256)
-				ValidationErrors.Add("\r\n Author is greater than 256 characters");
-
-			if(post.Rank < 0)
-				ValidationErrors.Add("\r\n Invalid rank");
-
-			if (post.Descendants < 0)
-				ValidationErrors.Add("\r\n Invalid comments");
-
-			if (post.Score < 0)
-				ValidationErrors.Add("\r\n Invalid points");
-
-			if (ValidationErrors.Count > 0)
-				ValidationErrors.Insert(0, "Validation errors for id " + post.Id);
-
-			return ValidationErrors.Count == 0;
-		}
+		
 	}
 }
 

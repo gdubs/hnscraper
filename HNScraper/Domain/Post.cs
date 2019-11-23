@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace HNScraper.Domain
 {
@@ -14,6 +15,47 @@ namespace HNScraper.Domain
 		public string Type { get; set; }
 		public string Url { get; set; }
 		public int Rank { get; set; }
+
+
+		// TODO: removed this from Post, looks ugly when converting to json
+		//       maybe make sense to add somewhere else. Maybe another service inside domain??
+		[JsonIgnore]
+		List<string> ValidationErrors;
+		public bool IsValid()
+		{
+			ValidationErrors = new List<string>();
+
+			if (string.IsNullOrEmpty(this.Title))
+				ValidationErrors.Add("\r\n Title is an empty string");
+
+			if (string.IsNullOrEmpty(this.By))
+				ValidationErrors.Add("\r\n Author is an empty string");
+
+			if (this.Title?.Length >= 256)
+				ValidationErrors.Add("\r\n Title is greater than 256 characters");
+
+			if (this.By?.Length >= 256)
+				ValidationErrors.Add("\r\n Author is greater than 256 characters");
+
+			if (this.Rank < 0)
+				ValidationErrors.Add("\r\n Invalid rank");
+
+			if (this.Descendants < 0)
+				ValidationErrors.Add("\r\n Invalid comments");
+
+			if (this.Score < 0)
+				ValidationErrors.Add("\r\n Invalid points");
+
+			if (ValidationErrors.Count > 0)
+				ValidationErrors.Insert(0, "Validation errors for id " + this.Id);
+
+			return ValidationErrors.Count == 0;
+		}
+
+		public List<string> GetValidationErrors()
+		{
+			return ValidationErrors;
+		}
 	}
 }
 
